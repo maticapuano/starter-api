@@ -1,11 +1,18 @@
 import '@config/dotenv';
 import { CORS_DOMAIN, NODE_ENV } from '@config/secrets.env';
-import express, { Application } from 'express';
+import express, {
+  Application,
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
 import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
 import mongoSanitize from 'express-mongo-sanitize';
 import helmet from 'helmet';
+import { errorHandler } from '@middlewares/errorHandler';
+import { NotFoundError } from '@errors/error/NotFoundError';
 
 const app: Application = express();
 
@@ -26,5 +33,12 @@ app.options('*', cors({ origin: CORS_DOMAIN }));
 app.use(mongoSanitize());
 
 app.use(helmet());
+
+app.use((req: Request, res: Response, next: NextFunction) =>
+  next(new NotFoundError()),
+);
+
+//Error Handler
+app.use(errorHandler);
 
 export { app };
