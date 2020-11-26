@@ -1,6 +1,7 @@
 import { logger } from '@config/logger';
 import { NODE_ENV } from '@config/secrets.env';
 import { ApiError } from '@errors/ApiError';
+import { InternalServerError } from '@errors/error/InternalServerError';
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status-codes';
 
@@ -9,7 +10,7 @@ export const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Response => {
   if (err instanceof ApiError) {
     return ApiError.handler(err, res);
   }
@@ -23,7 +24,7 @@ export const errorHandler = (
       error: err.name,
       stack: err.stack,
     });
-
-    // Todo: internal error
   }
+
+  return ApiError.handler(new InternalServerError(), res);
 };
