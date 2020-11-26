@@ -1,0 +1,9 @@
+{
+  "name": "starter-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:maticapuano/starter-api.git",
+  "author": "Matías Capuano <maticapuano97@gmail.com>",
+  "license": "none",
+  "private": true
+}
