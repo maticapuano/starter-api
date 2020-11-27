@@ -5,6 +5,7 @@ import { ApiResponse } from '@utils/ApiResponse';
 import { Request, Response } from 'express';
 import _ from 'lodash';
 import httpStatus from 'http-status-codes';
+import { createTokens } from '@utils/authUtil';
 
 export const signUp = async (
   req: Request,
@@ -44,6 +45,8 @@ export const signIn = async (
     throw new BadRequestError('Email or Password is invalid.');
   }
 
+  const tokens = await createTokens(user);
+
   const userResponse = _.pick(user, [
     'id',
     'full_name',
@@ -54,7 +57,7 @@ export const signIn = async (
 
   return ApiResponse.success(
     res,
-    userResponse,
+    { ...userResponse, tokens },
     httpStatus.OK,
     'Login successfully',
   );
