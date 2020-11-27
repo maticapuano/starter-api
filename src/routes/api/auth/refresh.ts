@@ -6,10 +6,9 @@ import { header } from 'express-validator';
 const router = Router();
 
 const refreshTokenSchema = [
-  header('refreshToken')
-    .isJWT()
+  header('Authorization')
     .notEmpty()
-    .withMessage('Refresh token is not valid.'),
+    .withMessage('Authorization is requerid.'),
 ];
 
 router.post(
