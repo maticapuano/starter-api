@@ -38,4 +38,21 @@ export class JWT {
       return false;
     }
   }
+
+  public static async decode(
+    token: string,
+  ): Promise<IPayloadJWT | null> {
+    try {
+      const decode = (await jwt.decode(token)) as IPayloadJWT;
+      const currentDate = new Date().getTime() / 1000;
+
+      if (decode.exp < currentDate) {
+        return null;
+      }
+
+      return decode;
+    } catch {
+      return null;
+    }
+  }
 }
