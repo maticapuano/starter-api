@@ -7,6 +7,7 @@ export const REFRESH_TOKEN_EXP_DAYS =
   process.env.REFRESH_TOKEN_EXP_DAYS;
 export const TOKEN_ISSUER = process.env.TOKEN_ISSUER;
 export const TOKEN_AUDIENCE = process.env.TOKEN_AUDIENCE;
+export const ROUTE_PREFIX = process.env.ROUTE_PREFIX || 'v1';
 
 if (!CORS_DOMAIN) {
   console.log('[CORS_DOMAIN] not has defined');
