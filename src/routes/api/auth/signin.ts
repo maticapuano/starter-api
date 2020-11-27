@@ -1,6 +1,6 @@
+import AuthController from '@controllers/Auth.controller';
 import { validateRequest } from '@middlewares/validateRequest';
-import { ApiResponse } from '@utils/ApiResponse';
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { body } from 'express-validator';
 
 const router = Router();
@@ -20,9 +20,7 @@ router.post(
   '/auth/signin',
   signInSchema,
   validateRequest,
-  (req: Request, res: Response) => {
-    return ApiResponse.success(res, { route: 'Signin user' });
-  },
+  AuthController.signIn,
 );
 
 export { router as signInRoute };

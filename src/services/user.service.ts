@@ -27,8 +27,26 @@ export const createUser = async (
   return user;
 };
 
+export const signInUser = async (
+  email: string,
+  password: string,
+): Promise<IUserDto | null> => {
+  const user = await getUserByEmail(email);
+
+  if (user) {
+    const checkHash = await Encryption.compare(user.password, password);
+
+    if (checkHash) {
+      return user;
+    }
+  }
+
+  return null;
+};
+
 export default {
   getUserById,
   getUserByEmail,
   createUser,
+  signInUser,
 };

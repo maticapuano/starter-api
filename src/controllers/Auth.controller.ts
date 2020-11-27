@@ -33,6 +33,34 @@ export const signUp = async (
   );
 };
 
+export const signIn = async (
+  req: Request,
+  res: Response,
+): Promise<ApiResponse> => {
+  const { email, password } = _.pick(req.body, ['email', 'password']);
+  const user = await userService.signInUser(email, password);
+
+  if (!user) {
+    throw new BadRequestError('Email or Password is invalid.');
+  }
+
+  const userResponse = _.pick(user, [
+    'id',
+    'full_name',
+    'email',
+    'isStaff',
+    'isActive',
+  ]);
+
+  return ApiResponse.success(
+    res,
+    userResponse,
+    httpStatus.OK,
+    'Login successfully',
+  );
+};
+
 export default {
   signUp,
+  signIn,
 };
