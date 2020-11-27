@@ -1,4 +1,5 @@
 import '@config/dotenv';
+import 'express-async-errors';
 import {
   CORS_DOMAIN,
   NODE_ENV,
