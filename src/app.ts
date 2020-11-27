@@ -1,5 +1,9 @@
 import '@config/dotenv';
-import { CORS_DOMAIN, NODE_ENV } from '@config/secrets.env';
+import {
+  CORS_DOMAIN,
+  NODE_ENV,
+  ROUTE_PREFIX,
+} from '@config/secrets.env';
 import express, {
   Application,
   Request,
@@ -13,6 +17,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import helmet from 'helmet';
 import { errorHandler } from '@middlewares/errorHandler';
 import { NotFoundError } from '@errors/error/NotFoundError';
+import { ApiRoutes } from '@routes/api';
 
 const app: Application = express();
 
@@ -33,6 +38,9 @@ app.options('*', cors({ origin: CORS_DOMAIN }));
 app.use(mongoSanitize());
 
 app.use(helmet());
+
+//Routes
+app.use(`/${ROUTE_PREFIX}`, ApiRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) =>
   next(new NotFoundError()),
