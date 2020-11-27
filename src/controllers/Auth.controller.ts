@@ -24,11 +24,12 @@ export const signUp = async (
     throw new InternalServerError();
   }
 
+  const tokens = await createTokens(user);
   const userResponse = _.pick(user, ['id', 'full_name', 'email']);
 
   return ApiResponse.success(
     res,
-    userResponse,
+    { ...userResponse, tokens },
     httpStatus.CREATED,
     'Account created successfully.',
   );
