@@ -7,4 +7,6 @@ export default {
   LOGIN_SUCCESS: 'Login successfully',
   SHOWING_CURRENT_USER: 'Showing user details.',
   REFRESH_TOKEN_GENERATED: 'Refresh token generated successfully',
+  USER_NOT_FOUND: 'User not found',
+  ACCOUNT_UPDATED_SUCCESS: 'Account updated successfully',
 };
