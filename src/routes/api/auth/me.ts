@@ -1,5 +1,5 @@
 import AuthController from '@controllers/Auth.controller';
-import { requireAuth } from '@middlewares/RequireAuth';
+import { requireAuth } from '@middlewares/requireAuth';
 import { validateRequest } from '@middlewares/validateRequest';
 import { Router } from 'express';
 import { header } from 'express-validator';
