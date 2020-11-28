@@ -7,6 +7,7 @@ import _ from 'lodash';
 import httpStatus from 'http-status-codes';
 import { createTokens } from '@utils/authUtil';
 import { NotAuthorizedError } from '@errors/error/NotAuthorizedError';
+import en from '@locale';
 
 export const signUp = async (
   req: Request,
@@ -16,7 +17,7 @@ export const signUp = async (
   const userByEmail = await userService.getUserByEmail(body.email);
 
   if (userByEmail) {
-    throw new BadRequestError('Account already exits.');
+    throw new BadRequestError(en.EMAIL_ALREADY_EXISTS);
   }
 
   const user = await userService.createUser(body);
@@ -32,7 +33,7 @@ export const signUp = async (
     res,
     { ...userResponse, tokens },
     httpStatus.CREATED,
-    'Account created successfully.',
+    en.ACCOUNT_CREATED_SUCCESS,
   );
 };
 
@@ -44,7 +45,7 @@ export const signIn = async (
   const user = await userService.signInUser(email, password);
 
   if (!user) {
-    throw new BadRequestError('Email or Password is invalid.');
+    throw new BadRequestError(en.CREDENTIALS_INVALID);
   }
 
   const tokens = await createTokens(user);
@@ -61,7 +62,7 @@ export const signIn = async (
     res,
     { ...userResponse, tokens },
     httpStatus.OK,
-    'Login successfully',
+    en.LOGIN_SUCCESS,
   );
 };
 
@@ -88,7 +89,7 @@ export const self = async (
     res,
     userResponse,
     httpStatus.OK,
-    'Showing user details.',
+    en.SHOWING_CURRENT_USER,
   );
 };
 

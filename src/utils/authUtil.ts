@@ -5,6 +5,7 @@ import {
   TOKEN_ISSUER,
 } from '@config/secrets.env';
 import { BadRequestError } from '@errors/error/BadRequestError';
+import en from '@locale';
 import { IUserDto } from '@models/User.model';
 import { JWT } from './JWT';
 
@@ -26,7 +27,7 @@ export const createTokens = async (user: IUserDto): Promise<Tokens> => {
   });
 
   if (!user.isActive) {
-    throw new BadRequestError('This user not has active.');
+    throw new BadRequestError(en.ACCOUNT_NOT_ACTIVATED);
   }
 
   return {
