@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import _ from 'lodash';
 import httpStatus from 'http-status-codes';
 import { createTokens } from '@utils/authUtil';
+import { NotAuthorizedError } from '@errors/error/NotAuthorizedError';
 
 export const signUp = async (
   req: Request,
@@ -64,7 +65,35 @@ export const signIn = async (
   );
 };
 
+export const self = async (
+  req: Request,
+  res: Response,
+): Promise<ApiResponse> => {
+  const { id } = _.pick(req.user, ['id']);
+  const user = await userService.getUserById(id as string);
+
+  if (!user) {
+    throw new NotAuthorizedError();
+  }
+
+  const userResponse = _.pick(user, [
+    'id',
+    'full_name',
+    'email',
+    'isStaff',
+    'isActive',
+  ]);
+
+  return ApiResponse.success(
+    res,
+    userResponse,
+    httpStatus.OK,
+    'Showing user details.',
+  );
+};
+
 export default {
   signUp,
   signIn,
+  self,
 };

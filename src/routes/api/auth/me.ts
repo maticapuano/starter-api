@@ -1,6 +1,6 @@
+import AuthController from '@controllers/Auth.controller';
 import { validateRequest } from '@middlewares/validateRequest';
-import { ApiResponse } from '@utils/ApiResponse';
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { header } from 'express-validator';
 
 const router = Router();
@@ -11,13 +11,6 @@ const meSchema = [
     .withMessage('Authorization is requerid.'),
 ];
 
-router.get(
-  '/auth/me',
-  meSchema,
-  validateRequest,
-  (req: Request, res: Response) => {
-    return ApiResponse.success(res, { route: 'Current user details' });
-  },
-);
+router.get('/auth/me', meSchema, validateRequest, AuthController.self);
 
 export { router as meRoute };
