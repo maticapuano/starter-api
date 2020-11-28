@@ -16,7 +16,10 @@ export const authenticated = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    if (req.headers['authorization']) {
+    if (
+      req.headers['authorization'] &&
+      req.headers['authorization'].startsWith('Bearer')
+    ) {
       const token = req.headers['authorization'].split(' ')[1];
 
       const checkToken = await JWT.verify(token);
