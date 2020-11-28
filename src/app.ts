@@ -19,6 +19,7 @@ import helmet from 'helmet';
 import { errorHandler } from '@middlewares/errorHandler';
 import { NotFoundError } from '@errors/error/NotFoundError';
 import { ApiRoutes } from '@routes/api';
+import { authenticated } from '@middlewares/authenticated';
 
 const app: Application = express();
 
@@ -39,6 +40,9 @@ app.options('*', cors({ origin: CORS_DOMAIN }));
 app.use(mongoSanitize());
 
 app.use(helmet());
+
+//Middleware if is authenticated
+app.use(authenticated);
 
 //Routes
 app.use(`/${ROUTE_PREFIX}`, ApiRoutes);

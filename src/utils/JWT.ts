@@ -3,7 +3,7 @@ import { IUserDto } from '@models/User.model';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import _ from 'lodash';
 
-interface IPayloadJWT {
+export interface IPayloadJWT {
   id: string;
   iat: number;
   exp: number;
