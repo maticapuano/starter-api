@@ -2,6 +2,7 @@ import { BadRequestError } from '@errors/error/BadRequestError';
 import en from '@locale';
 import { IUserDto, User } from '@models/User.model';
 import { Encryption } from '@utils/Encryption';
+import _ from 'lodash';
 
 export const getUserById = async (id: string): Promise<IUserDto> => {
   const user = await User.findById(id);
@@ -50,9 +51,35 @@ export const signInUser = async (
   return null;
 };
 
+export const updateUser = async (
+  id: string,
+  attr: IUserDto,
+): Promise<IUserDto> => {
+  const findUserById = await getUserById(id);
+  const body = _.pick(attr, [
+    'full_name',
+    'email',
+    'isStaff',
+    'isActive',
+  ]);
+
+  if (!findUserById) {
+    throw new BadRequestError(en.USER_NOT_FOUND);
+  }
+
+  const user = await User.findById(findUserById.id);
+
+  user?.set(body);
+
+  await user?.save();
+
+  return user as IUserDto;
+};
+
 export default {
   getUserById,
   getUserByEmail,
   createUser,
   signInUser,
+  updateUser,
 };

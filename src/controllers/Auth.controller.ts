@@ -115,9 +115,25 @@ export const refreshToken = async (
   );
 };
 
+export const update = async (
+  req: Request,
+  res: Response,
+): Promise<ApiResponse> => {
+  const currentUser = req.user?.id as string;
+  const user = await userService.updateUser(currentUser, req.body);
+
+  return ApiResponse.success(
+    res,
+    user,
+    httpStatus.OK,
+    en.ACCOUNT_UPDATED_SUCCESS,
+  );
+};
+
 export default {
   signUp,
   signIn,
   self,
   refreshToken,
+  update,
 };
