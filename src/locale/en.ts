@@ -6,4 +6,5 @@ export default {
   ACCOUNT_CREATED_SUCCESS: 'Account created successfully',
   LOGIN_SUCCESS: 'Login successfully',
   SHOWING_CURRENT_USER: 'Showing user details.',
+  REFRESH_TOKEN_GENERATED: 'Refresh token generated successfully',
 };

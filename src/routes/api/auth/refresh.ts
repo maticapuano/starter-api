@@ -1,6 +1,7 @@
+import AuthController from '@controllers/Auth.controller';
+import { requireAuth } from '@middlewares/requireAuth';
 import { validateRequest } from '@middlewares/validateRequest';
-import { ApiResponse } from '@utils/ApiResponse';
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { header } from 'express-validator';
 
 const router = Router();
@@ -15,9 +16,8 @@ router.post(
   '/auth/refresh',
   refreshTokenSchema,
   validateRequest,
-  (req: Request, res: Response) => {
-    return ApiResponse.success(res, { route: 'Refresh token' });
-  },
+  requireAuth,
+  AuthController.refreshToken,
 );
 
 export { router as refreshTokenRoute };

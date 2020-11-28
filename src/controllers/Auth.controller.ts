@@ -8,6 +8,7 @@ import httpStatus from 'http-status-codes';
 import { createTokens } from '@utils/authUtil';
 import { NotAuthorizedError } from '@errors/error/NotAuthorizedError';
 import en from '@locale';
+import { IPayloadJWT } from '@utils/JWT';
 
 export const signUp = async (
   req: Request,
@@ -93,8 +94,30 @@ export const self = async (
   );
 };
 
+export const refreshToken = async (
+  req: Request,
+  res: Response,
+): Promise<ApiResponse> => {
+  const currentUser = req.user as IPayloadJWT;
+  const getUserByEmail = await userService.getUserById(currentUser.id);
+
+  if (!getUserByEmail.isActive) {
+    throw new BadRequestError(en.ACCOUNT_NOT_ACTIVATED);
+  }
+
+  const tokens = await createTokens(getUserByEmail);
+
+  return ApiResponse.success(
+    res,
+    { tokens },
+    httpStatus.OK,
+    en.REFRESH_TOKEN_GENERATED,
+  );
+};
+
 export default {
   signUp,
   signIn,
   self,
+  refreshToken,
 };
