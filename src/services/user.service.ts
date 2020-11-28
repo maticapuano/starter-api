@@ -1,3 +1,4 @@
+import { BadRequestError } from '@errors/error/BadRequestError';
 import { IUserDto, User } from '@models/User.model';
 import { Encryption } from '@utils/Encryption';
 
@@ -34,6 +35,10 @@ export const signInUser = async (
   const user = await getUserByEmail(email);
 
   if (user) {
+    if (!user.isActive) {
+      throw new BadRequestError('This user not has active.');
+    }
+
     const checkHash = await Encryption.compare(user.password, password);
 
     if (checkHash) {

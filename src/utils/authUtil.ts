@@ -4,6 +4,7 @@ import {
   TOKEN_AUDIENCE,
   TOKEN_ISSUER,
 } from '@config/secrets.env';
+import { BadRequestError } from '@errors/error/BadRequestError';
 import { IUserDto } from '@models/User.model';
 import { JWT } from './JWT';
 
@@ -23,6 +24,10 @@ export const createTokens = async (user: IUserDto): Promise<Tokens> => {
     audience: TOKEN_AUDIENCE,
     expiresIn: REFRESH_TOKEN_EXP_DAYS,
   });
+
+  if (!user.isActive) {
+    throw new BadRequestError('This user not has active.');
+  }
 
   return {
     accessToken: accessToken,
