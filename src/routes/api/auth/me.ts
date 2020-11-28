@@ -20,4 +20,14 @@ router.get(
   AuthController.self,
 );
 
+const updateSchema = [...meSchema];
+
+router.put(
+  '/auth/me',
+  updateSchema,
+  validateRequest,
+  requireAuth,
+  AuthController.update,
+);
+
 export { router as meRoute };
