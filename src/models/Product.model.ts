@@ -4,6 +4,7 @@ export interface IProductDto {
   id?: string;
   name: string;
   description: string;
+  price: number;
   stock?: number;
   userId: string;
   isActive?: boolean;
@@ -12,6 +13,7 @@ export interface IProductDto {
 export interface ProductDoc extends mongoose.Document {
   name: string;
   description: string;
+  price: number;
   stock: number;
   userId: string;
   isActive?: boolean;
@@ -27,6 +29,10 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       lowercase: true,
+      required: true,
+    },
+    price: {
+      type: Number,
       required: true,
     },
     stock: {
