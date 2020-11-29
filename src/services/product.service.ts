@@ -33,7 +33,14 @@ export const findById = async (
   return product;
 };
 
+export const getAll = async (): Promise<IProductDto[]> => {
+  const products = await Product.find({ isActive: true });
+
+  return products;
+};
+
 export default {
   create,
   findById,
+  getAll,
 };

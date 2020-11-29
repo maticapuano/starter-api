@@ -45,6 +45,16 @@ export const create = async (
   );
 };
 
+export const getAll = async (
+  req: Request,
+  res: Response,
+): Promise<ApiResponse> => {
+  const getAll = await productService.getAll();
+
+  return ApiResponse.success(res, getAll, httpStatus.OK);
+};
+
 export default {
   create,
+  getAll,
 };
