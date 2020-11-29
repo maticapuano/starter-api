@@ -21,6 +21,19 @@ export const create = async (
   return product;
 };
 
+export const findById = async (
+  id: string,
+): Promise<IProductDto | null> => {
+  const product = await Product.findById(id);
+
+  if (!product) {
+    return null;
+  }
+
+  return product;
+};
+
 export default {
   create,
+  findById,
 };
