@@ -49,7 +49,11 @@ export const getAll = async (
   req: Request,
   res: Response,
 ): Promise<ApiResponse> => {
-  const getAll = await productService.getAll();
+  const query = _.pick(req.query, ['limit', 'page']);
+  const limit = _.toNumber(query.limit);
+  const page = _.toNumber(query.page);
+
+  const getAll = await productService.getAll(limit, page);
 
   return ApiResponse.success(res, getAll, httpStatus.OK);
 };
