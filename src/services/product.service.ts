@@ -33,8 +33,12 @@ export const findById = async (
   return product;
 };
 
-export const getAll = async (): Promise<IProductDto[]> => {
-  const products = await Product.find({ isActive: true });
+export const getAll = async (
+  pageSize = 5,
+  pageNum = 1,
+): Promise<IProductDto[]> => {
+  const skips = pageSize * (pageNum - 1);
+  const products = await Product.find().skip(skips).limit(pageSize);
 
   return products;
 };
